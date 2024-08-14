@@ -14,3 +14,7 @@ def main():
     assistant = get_assistant(client)
     if not assistant:
         exit()
+    
+    print(assistant.name or "Untitled",
+          assistant.description or "No description",
+          assistant.id, sep=' | ')
