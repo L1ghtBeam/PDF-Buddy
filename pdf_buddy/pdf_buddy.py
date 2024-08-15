@@ -1,6 +1,6 @@
 from openai import OpenAI
 from dotenv import load_dotenv
-from pdf_buddy.menu import get_assistant
+from pdf_buddy.assistant import get_assistant
 from sys import exit
 
 
