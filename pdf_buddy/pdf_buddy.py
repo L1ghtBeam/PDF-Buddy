@@ -1,7 +1,10 @@
-from openai import OpenAI
-from dotenv import load_dotenv
-from pdf_buddy.assistant import get_assistant
 from sys import exit
+
+from dotenv import load_dotenv
+from openai import OpenAI
+
+from pdf_buddy.assistant import get_assistant
+from pdf_buddy.chat import start_chat
 
 
 def main():
@@ -15,6 +18,4 @@ def main():
     if not assistant:
         exit()
     
-    print(assistant.name or "Untitled",
-          assistant.description or "No description",
-          assistant.id, sep=' | ')
+    start_chat(client, assistant)

@@ -2,10 +2,10 @@ from openai import OpenAI, APIStatusError
 from openai.types.beta.assistant import Assistant
 from typing import Optional
 
-
 DEFAULT_MODEL = 'gpt-4o-mini'
 DEFAULT_PROMPT = "You are a studying assistant for the user. Use the provided"\
                  " study materials in order to answer questions."
+
 
 def get_assistant(client: OpenAI) -> Optional[Assistant]:
     print("Available Buddys:")
