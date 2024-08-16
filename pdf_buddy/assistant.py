@@ -3,12 +3,12 @@ from openai.types.beta.assistant import Assistant
 from typing import Optional
 
 DEFAULT_MODEL = 'gpt-4o-mini'
-DEFAULT_PROMPT = "You are a studying assistant for the user. Use the provided"\
+DEFAULT_INSTRUCT = "You are a studying assistant for the user. Use the provided"\
                  " study materials in order to answer questions."
 
 
 def get_assistant(client: OpenAI) -> Optional[Assistant]:
-    print("Available Buddys:")
+    print("Available Buddies:")
     all_assistants: list[Assistant] = []
     for i, assistant in enumerate(client.beta.assistants.list(
         order='desc',
@@ -47,8 +47,8 @@ def create_assistant(client: OpenAI) -> Assistant:
         assistant: Optional[Assistant] = None
         while not assistant:
             
-            name = input("Assistant name: ")
-            desc = input("Description (optional): ")
+            name = input("Assistant name: ").strip()
+            desc = input("Description (optional): ").strip()
 
             recommended_models = ['gpt-4o', 'gpt-4o-mini']
             print("Enter an OpenAI model to use. Recommended models include: ")
@@ -61,22 +61,22 @@ def create_assistant(client: OpenAI) -> Assistant:
                 print("Warning! Selected model is not a recommended model.",
                       "Issues may occur")
             
-            print("Enter a prompt for your study buddy. A prompt includes the",
-                  "instructions given to your study buddy, which controls how",
-                  "it behaves. A good prompt should:\n  (1) instruct the",
-                  "program to be helpful and answer questions\n  (2) inform",
-                  "the program of the subject of the study\n  (3) tell the",
-                  "program what type of files it will have access to")
-            print(f"\nDefault prompt: {DEFAULT_PROMPT}")
-            print("The default prompt will be used if no prompt is entered,",
-                  "but it's highly recommended to write your own prompt.")
-            prompt = input("Prompt: ") or DEFAULT_PROMPT
+            print("Enter instructions for your study buddy. Instructions tell",
+                  "your study buddy how to answer questions. Good",
+                  "instructions should:\n  (1) instruct the program to be",
+                  "helpful by answering questions\n  (2) inform the program",
+                  "of the subject of the study\n  (3) tell the program what",
+                  "type of files it will have access to")
+            print(f"\nDefault instructions: {DEFAULT_INSTRUCT}")
+            print("The default instructions will be used if no instructions",
+                  "are entered, but it's highly recommended to write your own.")
+            instruct = input("Instructions: ").strip() or DEFAULT_INSTRUCT
 
             print("\nYour study buddy:"
                   f"\n  name: {name}"
                   f"\n  description: {desc}"
                   f"\n  model: {model}"
-                  f"\n  prompt: {prompt}")
+                  f"\n  instructions: {instruct}")
 
             while True:
                 print("\nPlease [c]onfirm, [r]edo, or [q]uit your selection")
@@ -96,7 +96,7 @@ def create_assistant(client: OpenAI) -> Assistant:
                     model=model,
                     name=name,
                     description=desc,
-                    instructions=prompt,
+                    instructions=instruct,
                     tools=[{"type": "file_search"}]
                 )
             except APIStatusError as e:
