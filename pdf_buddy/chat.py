@@ -109,6 +109,11 @@ def chat_loop(client: OpenAI, assistant: Assistant, thread: Thread) -> None:
     user_input = input('\nyou> ').strip()
     if not user_input:
         return
+    
+    exit_keywords = ['quit', 'stop', 'exit', 'escape']
+    if user_input.lower() in exit_keywords:
+        print("\nsystem> Are you trying to quit? Use CTRL + C to exit.")
+        return
 
     message = client.beta.threads.messages.create(
         thread_id=thread.id,
