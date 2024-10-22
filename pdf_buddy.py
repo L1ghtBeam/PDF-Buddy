@@ -1,3 +1,4 @@
 from pdf_buddy import pdf_buddy
 
-pdf_buddy.main()
+if __name__ == '__main__':
+    pdf_buddy.main()
